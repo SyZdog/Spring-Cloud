@@ -1,0 +1,31 @@
+#注意事项: 
+#1.配置内容必须类似  
+#2.环境可以有多个,使用---分割  
+#3.设定默认模式
+spring:
+  profiles:
+    active: pro
+---
+spring:
+  profiles: dev       #开发环境
+#语法：  key:空格value  1.注意缩进   2.注意层级
+server:
+  port: 8090
+  servlet:
+    context-path: /
+#讲数据写入配置文件
+jdbc:
+  username: root
+  password: root
+---                   #环境分割线
+spring:
+  profiles: pro       #生产环境
+#语法：  key:空格value  1.注意缩进   2.注意层级
+server:
+  port: 8091
+  servlet:
+    context-path: /jt
+#将数据写入配置文件
+jdbc:
+  username: root用户名
+  password: root密码

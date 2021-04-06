@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jt.mapper.UserMapper">
+	
+	<!--
+		字段   user_id,user_name,user_age
+		属性   userId,userName,userAge
+		类型  resultType="ser"
+		驼峰规则映射:映射时自动的去除"_"线,之后首字母大写
+	  -->
+	<select id="findAll" resultType="User">
+		select id,name,age,sex from user
+	</select>
+</mapper>
