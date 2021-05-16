@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>EasyUI-进度条</title>
+<script type="text/javascript" src="/js/jquery-easyui-1.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery-easyui-1.4.1/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/js/jquery-easyui-1.4.1/locale/easyui-lang-zh_CN.js"></script>
+<link rel="stylesheet" type="text/css" href="/js/jquery-easyui-1.4.1/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="/js/jquery-easyui-1.4.1/themes/default/easyui.css" />
+<script type="text/javascript">
+	$(function(){
+		
+		
+		//典型jQuery的函数式编程
+		$("#b").click(function(){
+			onload();	
+		})
+		
+		/*采用递归的方法实现进度条刷新  */
+		var i = 0;
+		function onload(){
+			//value 表示页面加载的值. 1
+			$('#p').progressbar({ value:i++});
+			if(i<=100){
+				/*延时加载,到了指定的时间,则执行函数,时间
+				单位是毫秒*/
+				setTimeout(function(){onload();},1000)
+			}
+		}
+	})
+	
+</script>
+</head>
+	<!--项目的主体  -->
+	<body>
+		<!--引入具体样式.  -->
+		<div id="p" class="easyui-progressbar" style="width:400px;"></div>
+		<input id="b" type="button" value="加载"/> 
+	</body>
+	
+	
+</html>
+
+
+
+

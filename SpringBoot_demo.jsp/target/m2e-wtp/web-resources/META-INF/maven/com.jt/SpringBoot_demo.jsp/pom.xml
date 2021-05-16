@@ -21,7 +21,6 @@
 	</properties>
 
 	<dependencies>
-
 		<!--开箱即用 spring-boot-starter springBoot的启动器 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -46,13 +45,11 @@
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
 		</dependency>
-
 		<!--支持热部署 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 		</dependency>
-
 		<!--引入插件lombok 自动的set/get/构造方法插件 -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -98,9 +95,7 @@
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>
 		</dependency>
-
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>

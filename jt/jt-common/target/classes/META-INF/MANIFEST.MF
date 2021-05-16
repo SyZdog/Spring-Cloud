@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: zdzsmacbookpro
+Build-Jdk: 15.0.1
+Implementation-Title: jt-common
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: com.jt
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-boot
+ -starter-parent/jt/jt-common
+Created-By: Maven Integration for Eclipse
+

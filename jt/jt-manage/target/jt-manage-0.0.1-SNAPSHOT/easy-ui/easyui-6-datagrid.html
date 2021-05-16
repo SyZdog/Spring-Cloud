@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>EasyUI-3-菜单按钮</title>
+<script type="text/javascript"
+	src="/js/jquery-easyui-1.4.1/jquery.min.js"></script>
+<script type="text/javascript"
+	src="/js/jquery-easyui-1.4.1/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="/js/jquery-easyui-1.4.1/locale/easyui-lang-zh_CN.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="/js/jquery-easyui-1.4.1/themes/icon.css" />
+<link rel="stylesheet" type="text/css"
+	href="/js/jquery-easyui-1.4.1/themes/default/easyui.css" />
+<script type="text/javascript">
+	/*通过js创建表格  */
+	$(function(){
+		$("#table3").datagrid({
+			/*定义工具栏  */
+			toolbar: [{  		
+				  iconCls: 'icon-edit',  		
+				  handler: function(){alert("点击工具栏")}  	
+				  },'-',{  		
+				  iconCls: 'icon-help',  		
+				  handler: function(){alert('帮助工具栏')}  	
+				  },'-',{
+					  iconCls: 'icon-save',
+					  handler: function(){alert('保存工具栏')}
+				  },'-',{
+					  iconCls: 'icon-save',
+					  handler: function(){alert('保存工具栏')}
+				  }], 
+			//columns表格重要属性
+			columns:[[
+			{field:'itemIds',checkbox:true},
+			{field:'itemId',title:'商品Id',width:100}, 
+			{field:'itemName',title:'商品名称',width:100}, 
+			{field:'itemDesc',title:'商品描述',width:100,align:'right'} 
+			]],
+			fitColumns:true,		  //自动适应
+			url:"datagrid_item.json", //请求数据的地址
+			method:"get",			  //提交方式
+			striped:true,			  //有条纹的行
+			nowrap:true,			  //提高加载性能
+			loadMsg:"正在加载",		  //加载数据时打印
+			pagination:true,		  //分页加载
+			rownumbers:true,		  //显示行号
+			//singleSelect:true,	      //只允许选中一行数据
+		})
+	})
+</script>
+</head>
+	<body>
+		<h1>Easy-表格数据1</h1>
+		
+		<h1>通过js创建表格</h1>
+		<table id="table3" style="width:700px">
+			
+		</table>
+	</body>
+</html>

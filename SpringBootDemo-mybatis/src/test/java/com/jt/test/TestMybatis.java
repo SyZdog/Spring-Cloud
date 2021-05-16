@@ -1,7 +1,5 @@
 package com.jt.test;
 
-import static org.hamcrest.CoreMatchers.is;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.Update;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.jt.mapper.UserMapper;
 import com.jt.pojo.User;
@@ -162,7 +162,6 @@ public class TestMybatis {
 	 * 需求说明:有时查询可能不需要查询全部字段,会挑选其中几个进行查询.
 		条件:查询age为18岁的用户的名称和id.
 		Sql:select id,name from user;
-
 	 */
 	@Test
 	public void testSelect10() {
@@ -209,9 +208,10 @@ public class TestMybatis {
 	public void testSelect13() {
 		Map<String, Object> params = new HashMap<>();
 		params.put("name", "金角大王");
-		params.put("age", null);//不会忽略null值
+		params.put("age", null);
 		//queryWrapper:条件构造器，作用是拼接where条件，多条件时，默认使用and连接
 		QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+		//queryWrapper.allEq(params);//不会忽略null值
 		queryWrapper.allEq(params,true);//false时会自动将为null的数据去除.
 		List<User> userList = userMapper.selectList(queryWrapper);
 		System.out.println(userList);
@@ -243,15 +243,121 @@ public class TestMybatis {
 	}
 	/**
 	 * 条件: 只返回一列数据时 使用objs.
-	Sql: SELECT name,sex FROM user WHERE sex = ?;
+		Sql: SELECT name,sex FROM user WHERE sex = ?;
 	 */
 	@Test
 	public void testSelect16() {
 		//queryWrapper:条件构造器，作用是拼接where条件，多条件时，默认使用and连接
 		QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-		queryWrapper.select("MAX(age)max_age","MIN(age)min_age","AVG(age)avg_age","sex").groupBy("sex").having("sex in ({0},{1})","男","女");
+		queryWrapper.select("name","sex").groupBy("sex").having("sex in ({0},{1})","男","女");
 		List<Map<String, Object>> list = userMapper.selectMaps(queryWrapper);
 		System.out.println(list);
 	}
+	/**
+	 * 条件: 查询年龄=18岁的记录数.
+	 * Sql: SELECT COUNT(*) FROM USER WHERE age = 18;
+	 */
+	@Test
+	public void testSelect17() {
+		//queryWrapper:条件构造器，作用是拼接where条件，多条件时，默认使用and连接
+		QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+		queryWrapper.eq("age","18");
+		Integer count = userMapper.selectCount(queryWrapper);
+		System.out.println(count);
+	} 
+	/**
+	 * 说明:查询name为金角大王的一个数据.
+	 * Sql: select * from user where name = "金角大王";
+	   使用selectOne方法时，必须保证该记录只有一条可以使用，否则会报错
+	 */
+	@Test
+	public void testSelect18() {
+		//queryWrapper:条件构造器，作用是拼接where条件，多条件时，默认使用and连接
+		QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+		queryWrapper.eq("name","金角大王");
+		User user = userMapper.selectOne(queryWrapper);
+		System.out.println(user);
+	} 
+	/**
+	 * 说明:采用对象的形式,实现用户信息入库.
+	 * 入库user信息
+	 */
+	@Test
+	public void insertuser() {
+		User user = new User();
+		user.setName("小法").setAge(20).setSex("男");
+		int rows = userMapper.insert(user);
+		System.out.println(rows);
+	} 
+	/**
+	 * 说明:根据主键修改数据库记录.
+	 * 根据id更新主键信息
+	 * 作用: 根据主键修改数据库记录.
+	 */
+	@Test
+	public void updateUserById() {
+		User user = new User();
+		user.setId(226).setName("火人").setSex("男").setAge(2000);
+		int rows = userMapper.updateById(user);
+		System.out.println(rows);
+	} 
+	/**
+	 * 说明:根据条件修改数据库数据.其中不为null的元素充当set的条件.
+	 * 根据条件修改数据.  将名称为张三的用户信息.修改为鳄鱼 年龄3000 性别男
+	 * 作用: 根据主键修改数据库记录.
+	 */
+	@Test
+	public void updateUser() {
+		//更改数据
+		User user = new User();
+		user.setName("鳄鱼").setSex("男").setAge(3000);
+		//寻找张三的信息
+		UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+		updateWrapper.eq("name", "张三");
+		//更新数据
+		int rows = userMapper.update(user, updateWrapper);
+		System.out.println(rows);
+	} 
+	/**
+	 * 删除Id=1的用户记录
+	 */
+	@Test
+	public void deleteUser() {
+		int rows = userMapper.deleteById(1);
+		System.out.println(rows);
+	}
+	/**
+	 * 条件:批量删除数据  id为 171,175,224
+	 */
+	@Test
+	public void deleteUsers() {
+		List<Integer> idList = new ArrayList<>();
+		idList.add(171);
+		idList.add(175);
+		idList.add(224);
+		int rows = userMapper.deleteBatchIds(idList);
+		System.out.println(rows);
+	}
+	/**
+	 *  条件:删除年龄>9000的数据用户数据.
+	 */
+	@Test
+	public void deleteUsersByWrapper() {
+		QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+		queryWrapper.gt("age", 9000);
+		int rows = userMapper.delete(queryWrapper);
+		System.out.println(rows);
+	}
+	/**
+	 * 条件:根据Map删除用户信息
+	 */
+	@Test
+	public void deleteByMap() {
+		Map<String, Object> columnMap = new HashMap<>();
+		columnMap.put("name", "甄姬");
+		columnMap.put("age", 30);
+		userMapper.deleteByMap(columnMap);
+	}
+	
 }
 
