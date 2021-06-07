@@ -1,0 +1,27 @@
+server:
+  port: 8090
+  servlet:
+    context-path: /
+spring:
+  datasource:
+  #如果驱动版本采用高版本，使用下列配置com.mysql.cj.jdbc.Driver
+  #如果驱动版本采用5.x.x的版本，配置为：com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/jtdb?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
+    username: root
+    password: root
+#mybatis-plus的配置
+mybatis-plus:
+#定义别名包  resultType的映射可以省略包路径
+  type-aliases-package: com.jt.pojo
+  #加载mapper的映射文件
+  mapper-locations: classpath:/mybatis/mappers/*.xml
+  #开启驼峰映射 
+  #使用说明: 1.必须按照驼峰规则的规定  去掉_线,并且之后字母"大写"
+  #         2.如果开启驼峰规则,必须按照要求  属性user_id   字段user_id   
+  configuration:
+    map-underscore-to-camel-case: true
+#引入日志
+logging:
+  level:
+    com.jt.mapper: debug
